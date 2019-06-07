@@ -1,13 +1,24 @@
 import React, { Component } from "react";
+import List from "./List";
 
 class ListsTransfererContainer extends Component {
   state = {
-    list1: [],
-    list2: [],
+    items1: [],
+    items2: [],
   };
 
   render() {
-    return <div />;
+    const { items1, items2 } = this.state;
+    return (
+      <div className="lists-transferer-container">
+        <List items={items1} />
+        <div className="arrow-buttons">
+          <button className="arrow-buttons__left-btn">{"<"}</button>
+          <button className="arrow-buttons__right-btn">{">"}</button>
+        </div>
+        <List items={items2} />
+      </div>
+    );
   }
 }
 
