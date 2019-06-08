@@ -17,14 +17,7 @@ const List = ({
           console.log(e.target.checked);
         }}>
         {list.map(item => {
-          return (
-            <ListItem
-              key={item.id}
-              id={item.id}
-              name={item.name}
-              isChecked={item.isChecked}
-            />
-          );
+          return <ListItem key={item.id} item={item} />;
         })}
       </ul>
       <input

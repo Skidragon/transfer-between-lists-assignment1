@@ -1,6 +1,7 @@
 import React from "react";
 
-const ListItem = ({ id, name, isChecked }) => {
+const ListItem = props => {
+  const { id, name, isChecked } = props.item;
   return (
     <li className="list-item" id={id} checked={isChecked}>
       <label htmlFor={name} className="list-item__checkbox-label" />
