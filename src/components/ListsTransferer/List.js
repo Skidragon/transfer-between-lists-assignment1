@@ -6,7 +6,7 @@ const List = ({ list, addItem }) => {
       <ul className="transferer-list">
         {list.map(item => {
           return (
-            <ListItem key={item.key} id={item.id}>
+            <ListItem key={item.id} id={item.id}>
               {item.name}
             </ListItem>
           );
