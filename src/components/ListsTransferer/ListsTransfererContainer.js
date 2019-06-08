@@ -37,7 +37,29 @@ class ListsTransfererContainer extends Component {
       [listName]: list.filter(item => item.isChecked === false),
     });
   };
-  transferListItems = (fromListName, toListName) => {};
+  transferListItems = (fromListName, toListName) => {
+    const fromList = this.state[fromListName].slice();
+    const toList = this.state[toListName].slice();
+
+    const itemsToTransfer = [];
+    const newFromList = [];
+    for (let i = 0; i < fromList.length; i++) {
+      let item = fromList[i];
+      if (item.isChecked) {
+        itemsToTransfer.push({
+          ...item,
+          isChecked: false,
+        });
+      } else {
+        newFromList.push(item);
+      }
+    }
+
+    this.setState({
+      [toListName]: [...itemsToTransfer, ...toList],
+      [fromListName]: newFromList,
+    });
+  };
   updateItemProps = (listName, itemId, updateProps) => {
     const list = this.state[listName].slice();
     const itemIndex = list.findIndex(item => {
@@ -78,8 +100,20 @@ class ListsTransfererContainer extends Component {
         />
 
         <div className="arrow-buttons">
-          <button className="arrow-buttons__left-btn">{"<"}</button>
-          <button className="arrow-buttons__right-btn">{">"}</button>
+          <button
+            className="arrow-buttons__left-btn"
+            onClick={() => {
+              this.transferListItems("list2", "list1");
+            }}>
+            {"<"}
+          </button>
+          <button
+            className="arrow-buttons__right-btn"
+            onClick={() => {
+              this.transferListItems("list1", "list2");
+            }}>
+            {">"}
+          </button>
         </div>
         <List
           list={list2}
