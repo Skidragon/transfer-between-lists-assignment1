@@ -18,7 +18,15 @@
 .list-item {
   display: flex;
   font-size: 1.6rem;
-  background: lightblue;
+  width: 100%;
+  position: relative;
+  &:hover {
+    background: lightblue;
+  }
+}
+.list-item__checkbox-label {
+  position: absolute;
+  height: 100%;
   width: 100%;
 }
 .arrow-buttons {

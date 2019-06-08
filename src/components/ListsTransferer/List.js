@@ -11,9 +11,20 @@ const List = ({
 }) => {
   return (
     <div>
-      <ul className="transferer-list">
+      <ul
+        className="transferer-list"
+        onClick={e => {
+          console.log(e.target.checked);
+        }}>
         {list.map(item => {
-          return <ListItem key={item.id} id={item.id} name={item.name} />;
+          return (
+            <ListItem
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              isChecked={item.isChecked}
+            />
+          );
         })}
       </ul>
       <input
