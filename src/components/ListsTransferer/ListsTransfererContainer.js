@@ -9,6 +9,8 @@ class ListsTransfererContainer extends Component {
     addItemText1: "",
     list2: [],
     addItemText2: "",
+    hasError: false,
+    errorMsg: "",
   };
   componentDidMount() {
     this.setState({
@@ -19,34 +21,43 @@ class ListsTransfererContainer extends Component {
   changeInputTextHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  clearText = e => {
-    this.setState({ [e.target.name]: "" });
+  clearText = stateName => {
+    this.setState({ [stateName]: "" });
   };
-  addItem = (listName, itemName) => {
-    const list1 = this.state.list1.slice();
-    const list2 = this.state.list2.slice();
+  addItem = (listName, e) => {
+    const itemName = e.target.value;
 
+    if (itemName === "") {
+      this.setState({
+        hasError: true,
+        errorMsg: "Sorry, can't add a blank item name.",
+      });
+      return;
+    }
+    //Checks every list if item exists
     let itemExists = false;
-
-    itemExists = list1.some(item => {
-      return item.name === itemName;
-    });
-    if (itemExists) {
-      return;
+    let listNum = 1;
+    while (this.state[`list${listNum}`]) {
+      itemExists = this.state[`list${listNum}`].some(item => {
+        return itemName === item.name;
+      });
+      if (itemExists) {
+        this.setState({
+          hasError: true,
+          errorMsg: `Sorry, item with the name of ${itemName} exists in one of the lists.`,
+        });
+        return;
+      }
+      listNum++;
     }
-    itemExists = list2.some(item => {
-      return item.name === itemName;
-    });
-    if (itemExists) {
-      return;
-    }
+    this.clearText(e.target.name);
     const item = {
       id: uuidv1(),
       name: itemName,
       isChecked: false,
     };
     const list = this.state[listName].slice();
-    this.setState({ [listName]: [...list, item] });
+    this.setState({ [listName]: [...list, item], hasError: false });
   };
   deleteItems = listName => {
     const list = this.state[listName].slice();
@@ -97,7 +108,14 @@ class ListsTransfererContainer extends Component {
   };
 
   render() {
-    const { list1, addItemText1, list2, addItemText2 } = this.state;
+    const {
+      list1,
+      addItemText1,
+      list2,
+      addItemText2,
+      hasError,
+      errorMsg,
+    } = this.state;
     return (
       <div className="lists-transferer-container">
         <button
@@ -113,7 +131,6 @@ class ListsTransfererContainer extends Component {
           addItem={this.addItem.bind(this, "list1")}
           changeInputTextHandler={this.changeInputTextHandler}
           updateItemProps={this.updateItemProps.bind(this, "list1")}
-          clearText={this.clearText}
         />
 
         <div className="arrow-buttons">
@@ -139,7 +156,6 @@ class ListsTransfererContainer extends Component {
           addItem={this.addItem.bind(this, "list2")}
           changeInputTextHandler={this.changeInputTextHandler}
           updateItemProps={this.updateItemProps.bind(this, "list2")}
-          clearText={this.clearText}
         />
         <button
           onClick={() => {
@@ -147,6 +163,7 @@ class ListsTransfererContainer extends Component {
           }}>
           Delete
         </button>
+        {hasError && <p>{errorMsg}</p>}
       </div>
     );
   }

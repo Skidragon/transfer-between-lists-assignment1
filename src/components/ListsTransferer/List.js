@@ -8,7 +8,6 @@ const List = ({
   //methods
   addItem,
   changeInputTextHandler,
-  clearText,
   updateItemProps,
 }) => {
   return (
@@ -35,8 +34,7 @@ const List = ({
         onChange={changeInputTextHandler}
         onKeyDown={e => {
           if (e.keyCode === 13) {
-            addItem(e.target.value);
-            clearText(e);
+            addItem(e);
           }
         }}
       />
