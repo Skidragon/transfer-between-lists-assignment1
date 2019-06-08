@@ -2,12 +2,18 @@ import React, { Component } from "react";
 import List from "./List";
 import "./lists-transferer.scss";
 import uuidv4 from "uuid/v4";
+import { mockList1, mockList2 } from "./lib/mock-data/mock-lists";
 class ListsTransfererContainer extends Component {
   state = {
     list1: [],
     list2: [],
   };
-
+  componentDidMount() {
+    this.setState({
+      list1: mockList1,
+      list2: mockList2,
+    });
+  }
   addItem = (listName, itemName) => {
     const item = {
       id: uuidv4(),
