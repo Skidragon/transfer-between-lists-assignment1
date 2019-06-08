@@ -53,7 +53,7 @@ class ListsTransfererContainer extends Component {
     let listNum = 1;
     while (this.state[`list${listNum}`]) {
       itemExists = this.state[`list${listNum}`].some(item => {
-        return itemName === item.name;
+        return itemName.toLowerCase() === item.name.toLowerCase();
       });
       if (itemExists) {
         this.setState({
