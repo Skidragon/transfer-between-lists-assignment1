@@ -1,16 +1,26 @@
 import React from "react";
 import ListItem from "./ListItem";
-const List = ({ items }) => {
+const List = ({ list, addItem }) => {
   return (
-    <ul className="transferer-list">
-      {items.map(item => {
-        return (
-          <ListItem key={item.id} id={item.id}>
-            {item.name}
-          </ListItem>
-        );
-      })}
-    </ul>
+    <div>
+      <ul className="transferer-list">
+        {list.map(item => {
+          return (
+            <ListItem key={item.key} id={item.id}>
+              {item.name}
+            </ListItem>
+          );
+        })}
+      </ul>
+      <input
+        type="text"
+        onKeyDown={e => {
+          if (e.keyCode === 13) {
+            addItem(e.target.value);
+          }
+        }}
+      />
+    </div>
   );
 };
 
