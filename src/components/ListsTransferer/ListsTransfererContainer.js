@@ -8,6 +8,7 @@ class ListsTransfererContainer extends Component {
     list1: [],
     addItemText1: "",
     list2: [],
+    addItemText2: "",
   };
   componentDidMount() {
     this.setState({
@@ -36,6 +37,7 @@ class ListsTransfererContainer extends Component {
       [listName]: list.filter(item => item.isChecked === false),
     });
   };
+  transferListItems = (fromListName, toListName) => {};
   updateItemProps = (listName, itemId, updateProps) => {
     const list = this.state[listName].slice();
     const itemIndex = list.findIndex(item => {
@@ -56,7 +58,7 @@ class ListsTransfererContainer extends Component {
   };
 
   render() {
-    const { list1, addItemText1 } = this.state;
+    const { list1, addItemText1, list2, addItemText2 } = this.state;
     return (
       <div className="lists-transferer-container">
         <button
@@ -68,6 +70,7 @@ class ListsTransfererContainer extends Component {
         <List
           list={list1}
           addItemText={addItemText1}
+          addItemTextName="addItemText1"
           addItem={this.addItem.bind(this, "list1")}
           changeInputTextHandler={this.changeInputTextHandler}
           updateItemProps={this.updateItemProps.bind(this, "list1")}
@@ -78,6 +81,21 @@ class ListsTransfererContainer extends Component {
           <button className="arrow-buttons__left-btn">{"<"}</button>
           <button className="arrow-buttons__right-btn">{">"}</button>
         </div>
+        <List
+          list={list2}
+          addItemText={addItemText2}
+          addItemTextName="addItemText2"
+          addItem={this.addItem.bind(this, "list2")}
+          changeInputTextHandler={this.changeInputTextHandler}
+          updateItemProps={this.updateItemProps.bind(this, "list2")}
+          clearText={this.clearText}
+        />
+        <button
+          onClick={() => {
+            this.deleteItems("list2");
+          }}>
+          Delete
+        </button>
       </div>
     );
   }

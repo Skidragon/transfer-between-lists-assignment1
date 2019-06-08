@@ -4,6 +4,7 @@ const List = ({
   //state
   list,
   addItemText,
+  addItemTextName,
   //methods
   addItem,
   changeInputTextHandler,
@@ -30,7 +31,7 @@ const List = ({
         type="text"
         className="transferer-list__add-item-box"
         value={addItemText}
-        name={"addItemText1"}
+        name={addItemTextName}
         onChange={changeInputTextHandler}
         onKeyDown={e => {
           if (e.keyCode === 13) {
