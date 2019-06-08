@@ -24,7 +24,7 @@ class ListsTransfererContainer extends Component {
   };
 
   render() {
-    const { list1, list2 } = this.state;
+    const { list1 } = this.state;
     return (
       <div className="lists-transferer-container">
         <List list={list1} addItem={this.addItem.bind(this, "list1")} />
