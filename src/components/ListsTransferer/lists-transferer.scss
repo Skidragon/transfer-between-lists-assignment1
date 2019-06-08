@@ -38,5 +38,8 @@
 .arrow-buttons {
   display: flex;
   flex-direction: column;
-  padding: 1em;
+  padding: 2em;
+  .arrow-buttons__left-btn {
+    margin-bottom: 1rem;
+  }
 }
