@@ -1,16 +1,17 @@
+import uuidv1 from "uuid/v1";
 const mockList1 = [
   {
-    id: 1,
+    id: uuidv1(),
     name: "sushi",
     isChecked: false,
   },
   {
-    id: 2,
+    id: uuidv1(),
     name: "bananas",
     isChecked: false,
   },
   {
-    id: 3,
+    id: uuidv1(),
     name: "ice cream",
     isChecked: false,
   },
@@ -18,17 +19,17 @@ const mockList1 = [
 
 const mockList2 = [
   {
-    id: 4,
+    id: uuidv1(),
     name: "a",
     isChecked: false,
   },
   {
-    id: 5,
+    id: uuidv1(),
     name: "b",
     isChecked: false,
   },
   {
-    id: 6,
+    id: uuidv1(),
     name: "c",
     isChecked: false,
   },
