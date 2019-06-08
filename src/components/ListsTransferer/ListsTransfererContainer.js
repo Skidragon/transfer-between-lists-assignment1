@@ -25,6 +25,7 @@ class ListsTransfererContainer extends Component {
     const item = {
       id: uuidv4(),
       name: itemName,
+      isChecked: false,
     };
     const list = this.state[listName].slice();
     this.setState({ [listName]: [...list, item] });
