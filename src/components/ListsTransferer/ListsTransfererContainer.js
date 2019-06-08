@@ -9,6 +9,8 @@ class ListsTransfererContainer extends Component {
     addItemText1: "",
     list2: [],
     addItemText2: "",
+    hasError: false,
+    errorMsg: "",
   };
   componentDidMount() {
     this.setState({
@@ -22,23 +24,31 @@ class ListsTransfererContainer extends Component {
   clearText = stateName => {
     this.setState({ [stateName]: "" });
   };
-  addItem = (listName, itemName) => {
-    const list1 = this.state.list1.slice();
-    const list2 = this.state.list2.slice();
+  addItem = (listName, e) => {
+    const itemName = e.target.value;
 
-    let itemExists = false;
-
-    itemExists = list1.some(item => {
-      return item.name === itemName;
-    });
-    if (itemExists) {
+    if (itemName === "") {
+      this.setState({
+        hasError: true,
+        errorMsg: "Sorry, can't add a blank item name.",
+      });
       return;
     }
-    itemExists = list2.some(item => {
-      return item.name === itemName;
-    });
-    if (itemExists) {
-      return;
+    //Checks every list if item exists
+    let itemExists = false;
+    let listNum = 1;
+    while (this.state[`list${listNum}`]) {
+      itemExists = this.state[`list${listNum}`].some(item => {
+        return itemName === item.name;
+      });
+      if (itemExists) {
+        this.setState({
+          hasError: true,
+          errorMsg: `Sorry, item with the name of ${itemName} exists in one of the lists.`,
+        });
+        return;
+      }
+      listNum++;
     }
     this.clearText(e.target.name);
     const item = {
@@ -47,7 +57,7 @@ class ListsTransfererContainer extends Component {
       isChecked: false,
     };
     const list = this.state[listName].slice();
-    this.setState({ [listName]: [...list, item] });
+    this.setState({ [listName]: [...list, item], hasError: false });
   };
   deleteItems = listName => {
     const list = this.state[listName].slice();
@@ -98,7 +108,14 @@ class ListsTransfererContainer extends Component {
   };
 
   render() {
-    const { list1, addItemText1, list2, addItemText2 } = this.state;
+    const {
+      list1,
+      addItemText1,
+      list2,
+      addItemText2,
+      hasError,
+      errorMsg,
+    } = this.state;
     return (
       <div className="lists-transferer-container">
         <button
@@ -146,6 +163,7 @@ class ListsTransfererContainer extends Component {
           }}>
           Delete
         </button>
+        {hasError && <p>{errorMsg}</p>}
       </div>
     );
   }
