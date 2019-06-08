@@ -30,6 +30,23 @@ class ListsTransfererContainer extends Component {
     const list = this.state[listName].slice();
     this.setState({ [listName]: [...list, item] });
   };
+  updateItemProps = (listName, itemId, updateProps) => {
+    const list = this.state[listName].slice();
+    const itemIndex = list.findIndex(item => {
+      return item.id === itemId;
+    });
+    const updatedItem = {
+      ...list[itemIndex],
+      ...updateProps,
+    };
+    this.setState({
+      [listName]: [
+        ...list.slice(0, itemIndex),
+        updatedItem,
+        ...list.slice(itemIndex + 1),
+      ],
+    });
+  };
 
   render() {
     const { list1, addItemText1 } = this.state;
@@ -40,6 +57,7 @@ class ListsTransfererContainer extends Component {
           addItemText={addItemText1}
           addItem={this.addItem.bind(this, "list1")}
           changeInputTextHandler={this.changeInputTextHandler}
+          updateItemProps={this.updateItemProps.bind(this, "list1")}
           clearText={this.clearText}
         />
         <div className="arrow-buttons">

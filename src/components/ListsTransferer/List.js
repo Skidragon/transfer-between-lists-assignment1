@@ -8,13 +8,19 @@ const List = ({
   addItem,
   changeInputTextHandler,
   clearText,
+  updateItemProps,
 }) => {
   return (
     <div>
       <ul
         className="transferer-list"
         onClick={e => {
-          console.log(e.target.checked);
+          const { id, checked } = e.target;
+          if (id && checked) {
+            updateItemProps(id, {
+              isChecked: checked,
+            });
+          }
         }}>
         {list.map(item => {
           return <ListItem key={item.id} item={item} />;
