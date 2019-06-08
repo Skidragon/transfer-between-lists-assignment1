@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import List from "./List";
 import "./lists-transferer.scss";
-import uuidv4 from "uuid/v4";
+import uuidv1 from "uuid/v1";
 import { mockList1, mockList2 } from "./lib/mock-data/mock-lists";
 class ListsTransfererContainer extends Component {
   state = {
@@ -23,7 +23,7 @@ class ListsTransfererContainer extends Component {
   };
   addItem = (listName, itemName) => {
     const item = {
-      id: uuidv4(),
+      id: uuidv1(),
       name: itemName,
       isChecked: false,
     };
