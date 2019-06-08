@@ -59,6 +59,12 @@ class ListsTransfererContainer extends Component {
     const { list1, addItemText1 } = this.state;
     return (
       <div className="lists-transferer-container">
+        <button
+          onClick={() => {
+            this.deleteItems("list1");
+          }}>
+          Delete
+        </button>
         <List
           list={list1}
           addItemText={addItemText1}
@@ -67,12 +73,7 @@ class ListsTransfererContainer extends Component {
           updateItemProps={this.updateItemProps.bind(this, "list1")}
           clearText={this.clearText}
         />
-        <button
-          onClick={() => {
-            this.deleteItems("list1");
-          }}>
-          Delete
-        </button>
+
         <div className="arrow-buttons">
           <button className="arrow-buttons__left-btn">{"<"}</button>
           <button className="arrow-buttons__right-btn">{">"}</button>
