@@ -19,8 +19,8 @@ class ListsTransfererContainer extends Component {
   changeInputTextHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-  clearText = e => {
-    this.setState({ [e.target.name]: "" });
+  clearText = stateName => {
+    this.setState({ [stateName]: "" });
   };
   addItem = (listName, itemName) => {
     const list1 = this.state.list1.slice();
@@ -40,6 +40,7 @@ class ListsTransfererContainer extends Component {
     if (itemExists) {
       return;
     }
+    this.clearText(e.target.name);
     const item = {
       id: uuidv1(),
       name: itemName,
@@ -113,7 +114,6 @@ class ListsTransfererContainer extends Component {
           addItem={this.addItem.bind(this, "list1")}
           changeInputTextHandler={this.changeInputTextHandler}
           updateItemProps={this.updateItemProps.bind(this, "list1")}
-          clearText={this.clearText}
         />
 
         <div className="arrow-buttons">
@@ -139,7 +139,6 @@ class ListsTransfererContainer extends Component {
           addItem={this.addItem.bind(this, "list2")}
           changeInputTextHandler={this.changeInputTextHandler}
           updateItemProps={this.updateItemProps.bind(this, "list2")}
-          clearText={this.clearText}
         />
         <button
           onClick={() => {
