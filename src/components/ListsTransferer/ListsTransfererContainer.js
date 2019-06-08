@@ -23,6 +23,23 @@ class ListsTransfererContainer extends Component {
     this.setState({ [e.target.name]: "" });
   };
   addItem = (listName, itemName) => {
+    const list1 = this.state.list1.slice();
+    const list2 = this.state.list2.slice();
+
+    let itemExists = false;
+
+    itemExists = list1.some(item => {
+      return item.name === itemName;
+    });
+    if (itemExists) {
+      return;
+    }
+    itemExists = list2.some(item => {
+      return item.name === itemName;
+    });
+    if (itemExists) {
+      return;
+    }
     const item = {
       id: uuidv1(),
       name: itemName,
