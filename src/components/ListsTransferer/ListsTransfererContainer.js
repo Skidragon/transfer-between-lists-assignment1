@@ -4,19 +4,33 @@ import "./lists-transferer.scss";
 import uuidv1 from "uuid/v1";
 import { mockList1, mockList2 } from "./lib/mock-data/mock-lists";
 class ListsTransfererContainer extends Component {
-  state = {
-    list1: [],
-    addItemText1: "",
-    list2: [],
-    addItemText2: "",
-    hasError: false,
-    errorMsg: "",
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      list1: [],
+      addItemText1: "",
+      list2: [],
+      addItemText2: "",
+      hasError: false,
+      errorMsg: "",
+    };
+    this.beforeUnload = () => {
+      window.localStorage.setItem("addItemText1", this.state.addItemText1);
+      window.localStorage.setItem("addItemText2", this.state.addItemText2);
+    };
+  }
+
   componentDidMount() {
     this.setState({
       list1: mockList1,
       list2: mockList2,
+      addItemText1: window.localStorage.getItem("addItemText1"),
+      addItemText2: window.localStorage.getItem("addItemText2"),
     });
+    window.addEventListener("beforeunload", this.beforeUnload);
+  }
+  componentWillUnmount() {
+    window.removeEventListener("beforeunload", this.beforeUnload);
   }
   changeInputTextHandler = e => {
     this.setState({ [e.target.name]: e.target.value });
