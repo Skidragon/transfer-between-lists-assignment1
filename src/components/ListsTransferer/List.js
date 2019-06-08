@@ -16,7 +16,7 @@ const List = ({
         className="transferer-list"
         onClick={e => {
           const { id, checked } = e.target;
-          if (id && checked) {
+          if (id) {
             updateItemProps(id, {
               isChecked: checked,
             });

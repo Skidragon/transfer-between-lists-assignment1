@@ -30,6 +30,12 @@ class ListsTransfererContainer extends Component {
     const list = this.state[listName].slice();
     this.setState({ [listName]: [...list, item] });
   };
+  deleteItems = listName => {
+    const list = this.state[listName].slice();
+    this.setState({
+      [listName]: list.filter(item => item.isChecked === false),
+    });
+  };
   updateItemProps = (listName, itemId, updateProps) => {
     const list = this.state[listName].slice();
     const itemIndex = list.findIndex(item => {
@@ -39,6 +45,7 @@ class ListsTransfererContainer extends Component {
       ...list[itemIndex],
       ...updateProps,
     };
+
     this.setState({
       [listName]: [
         ...list.slice(0, itemIndex),
@@ -60,6 +67,12 @@ class ListsTransfererContainer extends Component {
           updateItemProps={this.updateItemProps.bind(this, "list1")}
           clearText={this.clearText}
         />
+        <button
+          onClick={() => {
+            this.deleteItems("list1");
+          }}>
+          Delete
+        </button>
         <div className="arrow-buttons">
           <button className="arrow-buttons__left-btn">{"<"}</button>
           <button className="arrow-buttons__right-btn">{">"}</button>
