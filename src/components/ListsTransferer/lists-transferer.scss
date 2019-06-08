@@ -1,12 +1,27 @@
 .lists-transferer-container {
   display: flex;
+  align-items: center;
 }
 
 .transferer-list {
-  background: lightblue;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #1a1a1a;
+  list-style: none;
+  overflow-y: scroll;
 }
 
+.transferer-list__add-item-box {
+  width: 100%;
+}
+.list-item {
+  display: flex;
+  font-size: 1.6rem;
+  background: lightblue;
+  width: 100%;
+}
 .arrow-buttons {
   display: flex;
   flex-direction: column;
+  padding: 1em;
 }
