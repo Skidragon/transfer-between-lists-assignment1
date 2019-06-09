@@ -24,8 +24,8 @@ class ListsTransfererContainer extends Component {
     this.setState({
       list1: mockList1,
       list2: mockList2,
-      addItemText1: window.localStorage.getItem("addItemText1"),
-      addItemText2: window.localStorage.getItem("addItemText2"),
+      addItemText1: window.localStorage.getItem("addItemText1") || "",
+      addItemText2: window.localStorage.getItem("addItemText2") || "",
     });
     window.addEventListener("beforeunload", this.beforeUnload);
   }
