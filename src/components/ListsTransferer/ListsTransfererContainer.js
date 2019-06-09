@@ -39,7 +39,7 @@ class ListsTransfererContainer extends Component {
   };
   addItem = (listName, e) => {
     const itemName = e.target.value;
-    const { errorOccurred } = this.props.statusManagement;
+    const { errorOccurred } = this.props.statusManager;
     if (itemName === "") {
       errorOccurred("Sorry, can't add a blank item name.");
       return;
@@ -118,7 +118,7 @@ class ListsTransfererContainer extends Component {
 
   render() {
     const { list1, addItemText1, list2, addItemText2 } = this.state;
-    const { hasError, errorMsg } = this.props.statusManagement;
+    const { hasError, errorMsg } = this.props.statusManager;
     return (
       <div className="lists-transferer-container">
         <button

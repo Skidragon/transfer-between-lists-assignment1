@@ -41,7 +41,7 @@ function withStatusManager(WrappedComponent) {
 
     render() {
       const { hasError, isLoading, errorMsg } = this.state;
-      const statusManagement = {
+      const statusManager = {
         resetStatusManagerState: this.resetStatusManagerState,
         errorOccurred: this.errorOccurred,
         startLoading: this.startLoading,
@@ -50,9 +50,7 @@ function withStatusManager(WrappedComponent) {
         isLoading,
         errorMsg,
       };
-      return (
-        <WrappedComponent {...this.props} statusManagement={statusManagement} />
-      );
+      return <WrappedComponent {...this.props} statusManager={statusManager} />;
     }
   };
 }
