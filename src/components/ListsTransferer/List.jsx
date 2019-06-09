@@ -5,6 +5,7 @@ const List = ({
   list,
   addItemText,
   addItemTextName,
+  listID,
   //methods
   addItem,
   changeInputTextHandler,
@@ -14,6 +15,7 @@ const List = ({
     <div>
       <ul
         className="transferer-list"
+        id={listID}
         onClick={e => {
           const { id, checked } = e.target;
           if (id) {
@@ -23,7 +25,7 @@ const List = ({
           }
         }}>
         {list.map(item => {
-          return <ListItem key={item.id} item={item} />;
+          return <ListItem key={item.id} item={item} listID={listID} />;
         })}
       </ul>
       <input
