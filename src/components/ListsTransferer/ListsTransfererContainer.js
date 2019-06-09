@@ -3,6 +3,7 @@ import List from "./List";
 import "./lists-transferer.scss";
 import uuidv1 from "uuid/v1";
 import { mockList1, mockList2 } from "./lib/mock-data/mock-lists";
+import { withStatusManager } from "../../modifier-components/withStatusManager";
 class ListsTransfererContainer extends Component {
   constructor(props) {
     super(props);
@@ -11,8 +12,6 @@ class ListsTransfererContainer extends Component {
       addItemText1: "",
       list2: [],
       addItemText2: "",
-      hasError: false,
-      errorMsg: "",
     };
     this.beforeUnload = () => {
       window.localStorage.setItem("addItemText1", this.state.addItemText1);
@@ -40,12 +39,9 @@ class ListsTransfererContainer extends Component {
   };
   addItem = (listName, e) => {
     const itemName = e.target.value;
-
+    const { errorOccurred } = this.props.statusManagement;
     if (itemName === "") {
-      this.setState({
-        hasError: true,
-        errorMsg: "Sorry, can't add a blank item name.",
-      });
+      errorOccurred("Sorry, can't add a blank item name.");
       return;
     }
     //Checks every list if item exists
@@ -56,10 +52,9 @@ class ListsTransfererContainer extends Component {
         return itemName.toLowerCase() === item.name.toLowerCase();
       });
       if (itemExists) {
-        this.setState({
-          hasError: true,
-          errorMsg: `Sorry, item with the name of ${itemName} exists in one of the lists.`,
-        });
+        errorOccurred(
+          `Sorry, item with the name of ${itemName} exists in one of the lists.`,
+        );
         return;
       }
       listNum++;
@@ -122,14 +117,8 @@ class ListsTransfererContainer extends Component {
   };
 
   render() {
-    const {
-      list1,
-      addItemText1,
-      list2,
-      addItemText2,
-      hasError,
-      errorMsg,
-    } = this.state;
+    const { list1, addItemText1, list2, addItemText2 } = this.state;
+    const { hasError, errorMsg } = this.props.statusManagement;
     return (
       <div className="lists-transferer-container">
         <button
@@ -182,5 +171,8 @@ class ListsTransfererContainer extends Component {
     );
   }
 }
+const ListsTransfererContainerWithMods = withStatusManager(
+  ListsTransfererContainer,
+);
 
-export { ListsTransfererContainer };
+export { ListsTransfererContainerWithMods as ListsTransfererContainer };
