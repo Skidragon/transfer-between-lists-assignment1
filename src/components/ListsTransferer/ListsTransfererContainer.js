@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import List from "./List";
 import "./lists-transferer.scss";
-import uuidv1 from "uuid/v1";
 import { mockList1, mockList2 } from "./lib/mock-data/mock-lists";
 import { withStatusManager } from "../../modifier-components/withStatusManager";
+import { Item } from "./lib/classes/Item";
 class ListsTransfererContainer extends Component {
   constructor(props) {
     super(props);
@@ -60,11 +60,8 @@ class ListsTransfererContainer extends Component {
       listNum++;
     }
     this.clearText(e.target.name);
-    const item = {
-      id: uuidv1(),
-      name: itemName,
-      isChecked: false,
-    };
+    const item = new Item({ isChecked: false, name: itemName });
+
     const list = this.state[listName].slice();
     this.setState({ [listName]: [...list, item], hasError: false });
   };
