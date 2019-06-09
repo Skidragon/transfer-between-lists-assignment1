@@ -1,6 +1,10 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/b72142ce-4492-4c98-9869-8800e4dc6e0a/deploy-status)](https://app.netlify.com/sites/list-transferer/deploys)
 
+Master branch:
 https://list-transferer.netlify.com/
+
+drag-and-drop branch:
+https://deploy-preview-5--list-transferer.netlify.com/
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
