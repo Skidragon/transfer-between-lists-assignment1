@@ -13,6 +13,7 @@ class ListsTransfererContainer extends Component {
       list2: [],
       addItemText2: "",
     };
+    this.dragColor = "#8080802f";
     this.beforeUnload = () => {
       window.localStorage.setItem("addItemText1", this.state.addItemText1);
       window.localStorage.setItem("addItemText2", this.state.addItemText2);
@@ -23,6 +24,8 @@ class ListsTransfererContainer extends Component {
     this.setState({
       list1: mockList1,
       list2: mockList2,
+      //TODO: Because there could be 2 ListsTransfererContainer
+      //having a unique local storage key for each one would need to be implemented
       addItemText1: window.localStorage.getItem("addItemText1") || "",
       addItemText2: window.localStorage.getItem("addItemText2") || "",
     });
@@ -94,6 +97,48 @@ class ListsTransfererContainer extends Component {
       [fromListName]: newFromList,
     });
   };
+  transferListItemByDrag = e => {
+    //origin
+    const itemId = e.dataTransfer.getData("item_id");
+    const originListId = e.dataTransfer.getData("origin_list_id");
+    const originList = this.state[originListId];
+
+    //destination
+    const itemName = e.dataTransfer.getData("item_name");
+
+    const item = new Item({ isChecked: false, name: itemName });
+
+    if (e.target.nodeName === "UL") {
+      let dropzoneId = e.target.id;
+      const dropzoneList = this.state[dropzoneId];
+      if (originListId === dropzoneId) {
+        return;
+      }
+      this.setState({
+        [dropzoneId]: [...dropzoneList, item],
+        [originListId]: originList.filter(item => item.id !== itemId),
+      });
+    } else if (e.target.nodeName === "LABEL") {
+      let dropzoneId = e.target.parentNode.parentNode.id;
+      const dropzoneList = this.state[dropzoneId];
+      if (originListId === dropzoneId) {
+        return;
+      }
+      const dropzoneItemId = e.target.control.id;
+      const dropzoneItemIndex = dropzoneList.findIndex(item => {
+        return item.id === dropzoneItemId;
+      });
+
+      this.setState({
+        [originListId]: originList.filter(item => item.id !== itemId),
+        [dropzoneId]: [
+          ...dropzoneList.slice(0, dropzoneItemIndex + 1),
+          item,
+          ...dropzoneList.slice(dropzoneItemIndex + 1),
+        ],
+      });
+    }
+  };
   updateItemProps = (listName, itemId, updateProps) => {
     const list = this.state[listName].slice();
     const itemIndex = list.findIndex(item => {
@@ -117,7 +162,36 @@ class ListsTransfererContainer extends Component {
     const { list1, addItemText1, list2, addItemText2 } = this.state;
     const { hasError, errorMsg } = this.props.statusManager;
     return (
-      <div className="lists-transferer-container">
+      <div
+        className="lists-transferer-container"
+        onDragStart={e => {
+          e.target.style.opacity = 0.4;
+          e.dataTransfer.setData("item_name", e.target.dataset.itemName);
+          e.dataTransfer.setData(
+            "origin_list_id",
+            e.target.dataset.originListId,
+          );
+          e.dataTransfer.setData("item_id", e.target.dataset.itemId);
+        }}
+        onDragEnd={e => {
+          e.target.style.opacity = 1;
+        }}
+        onDragOver={e => {
+          e.preventDefault();
+        }}
+        onDrop={e => {
+          this.transferListItemByDrag(e);
+          e.target.style.background = "initial";
+        }}
+        onDragEnter={e => {
+          const { nodeName } = e.target;
+          if (nodeName === "UL" || nodeName === "LABEL") {
+            e.target.style.background = this.dragColor;
+          }
+        }}
+        onDragLeave={e => {
+          e.target.style.background = "initial";
+        }}>
         <button
           onClick={() => {
             this.deleteItems("list1");
@@ -131,6 +205,7 @@ class ListsTransfererContainer extends Component {
           addItem={this.addItem.bind(this, "list1")}
           changeInputTextHandler={this.changeInputTextHandler}
           updateItemProps={this.updateItemProps.bind(this, "list1")}
+          listID="list1"
         />
 
         <div className="arrow-buttons">
@@ -156,6 +231,7 @@ class ListsTransfererContainer extends Component {
           addItem={this.addItem.bind(this, "list2")}
           changeInputTextHandler={this.changeInputTextHandler}
           updateItemProps={this.updateItemProps.bind(this, "list2")}
+          listID="list2"
         />
         <button
           onClick={() => {
